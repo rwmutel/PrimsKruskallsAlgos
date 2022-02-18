@@ -41,9 +41,3 @@ def gnp_random_connected_graph(num_of_nodes: int,
             node_size=500)
     
     return G
-
-
-if __name__ =="__main__":
-    g = gnp_random_connected_graph(10,1, False)
-    print(g.edges.data())
-    #plt.show()
