@@ -3,14 +3,13 @@ Prim's algorithm here.
 """
 import random
 import networkx as nx
-from main import gnp_random_connected_graph
 
 
-def prims_algo(graph: nx.Graph) -> int:
-    data = list(graph.edges.data())
+def prims_algo(nxgraph: nx.Graph) -> int:
+    data = list(nxgraph.edges.data())
 
     visited = list()
-    unvisited = list(graph.nodes)
+    unvisited = list(nxgraph.nodes)
     num_of_nodes = len(unvisited)
 
     starting_edge = random.choice(unvisited)
@@ -20,7 +19,7 @@ def prims_algo(graph: nx.Graph) -> int:
 
     carcass_weight = 0
 
-    while len(visited) < num_of_nodes - 1:
+    while len(visited) < num_of_nodes:
         minimum = 99999
         best_visit = 100000
         for node in visited:
@@ -33,19 +32,3 @@ def prims_algo(graph: nx.Graph) -> int:
         unvisited.remove(best_visit)
         visited.append(best_visit)
     return carcass_weight
-
-
-
-    # print(graph.nodes)
-    # print(in_set)
-    # #for edge in data:
-     #   pass
-
-
-
-if __name__ == "__main__":
-    graph = gnp_random_connected_graph(10, 1, False)
-    print(graph.edges.data())
-    print(prims_algo(graph))
-
-
