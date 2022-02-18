@@ -16,7 +16,7 @@ def kruskalls_tree(G: nx.Graph) -> nx.Graph:
 
     for edge in sorted(list(G.edges(data=True)), key=lambda x: x[2]['weight']):
         if len(spanning.edges()) == len(G.nodes) - 1:
-            print('spanning tree is done!')
+            # print('spanning tree is done!')
             break
         for u_node_group in nodes_set:
             if edge[0] in u_node_group:
