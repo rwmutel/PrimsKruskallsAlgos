@@ -20,14 +20,16 @@ def prims_algo(nxgraph: nx.Graph) -> int:
     carcass_weight = 0
 
     while len(visited) < num_of_nodes:
-        minimum = 99999
-        best_visit = 100000
+        minimum = 10000000
+        best_visit = 10000000
         for node in visited:
             for unv_node in unvisited:
                 for element in data:
-                    if node in element and unv_node in element and minimum > int(element[2]["weight"]):
-                        minimum = element[2]["weight"]
-                        best_visit = unv_node
+                    if node in element:
+                        if unv_node in element:
+                            if minimum > int(element[2]["weight"]):
+                                minimum = element[2]["weight"]
+                                best_visit = unv_node
         carcass_weight += minimum
         unvisited.remove(best_visit)
         visited.append(best_visit)
