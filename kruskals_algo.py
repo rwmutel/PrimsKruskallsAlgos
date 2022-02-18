@@ -4,8 +4,6 @@ Kruskal's algorithm here.
 import networkx as nx
 import matplotlib.pyplot as plt
 
-from main import gnp_random_connected_graph
-
 def kruskalls_tree(G: nx.Graph) -> nx.Graph:
     nodes_set = set()
     weight = 0
@@ -34,9 +32,3 @@ def kruskalls_tree(G: nx.Graph) -> nx.Graph:
                             break
                     break
     return spanning, weight
-
-
-if __name__ == '__main__':
-    my_g = gnp_random_connected_graph(10, 1, True)
-    print(*kruskalls_tree(my_g))
-    plt.show()

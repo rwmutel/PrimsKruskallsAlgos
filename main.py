@@ -1,7 +1,11 @@
 import random
 import networkx as nx
+from tqdm import tqdm
+import time
 import matplotlib.pyplot as plt
 from itertools import combinations, groupby
+from prims_algo import prims_algo
+from kruskals_algo import kruskalls_tree
 
 '''
 Discrete math laboratory work #01
@@ -40,3 +44,26 @@ def gnp_random_connected_graph(num_of_nodes: int,
             node_size=500)
     
     return G
+
+if __name__ == '__main__':
+    time_taken_prim = 0
+    time_taken_kruskal = 0
+    ITERATIONS = 100
+    for i in tqdm(range(ITERATIONS)):
+        G = gnp_random_connected_graph(20, 1, False)
+
+        start = time.time()
+        prims_algo(G)
+        end = time.time()
+        time_taken_prim += end - start
+
+        start = time.time()
+        kruskalls_tree(G)
+        end = time.time()
+        time_taken_kruskal += end - start
+
+    
+    print('Prim:')
+    print(time_taken_prim / ITERATIONS)
+    print('\nKruskal:')
+    print(time_taken_kruskal / ITERATIONS)
