@@ -8,29 +8,37 @@ import networkx as nx
 def prims_algo(nxgraph: nx.Graph) -> int:
     data = list(nxgraph.edges.data())
 
-    visited = list()
-    unvisited = list(nxgraph.nodes)
+    visited = set()
+    unvisited = set()
+
+    for node in nxgraph.nodes:
+        unvisited.add(node)
+
     num_of_nodes = len(unvisited)
+    starting_edge = random.choice(list(unvisited))
 
-    starting_edge = random.choice(unvisited)
-
-    visited.append(starting_edge)
+    visited.add(starting_edge)
     unvisited.remove(starting_edge)
 
+    adjacency = tuple(nxgraph.adjacency())
+
+    num_of_visited = 1
     carcass_weight = 0
 
-    while len(visited) < num_of_nodes:
-        minimum = 10000000
-        best_visit = 10000000
-        for node in visited:
-            for unv_node in unvisited:
-                for element in data:
-                    if node in element:
-                        if unv_node in element:
-                            if minimum > int(element[2]["weight"]):
-                                minimum = element[2]["weight"]
-                                best_visit = unv_node
+    while num_of_visited < num_of_nodes:
+        minimum = float("inf")
+        best_choice = -1
+        for node in range(num_of_nodes):
+            if node in visited:
+                for unv_node in unvisited:
+                    if unv_node in adjacency[node][1]:
+                        if minimum > adjacency[node][1][unv_node]["weight"]:
+                            minimum = adjacency[node][1][unv_node]["weight"]
+                            best_choice = unv_node
+
+        num_of_visited += 1
         carcass_weight += minimum
-        unvisited.remove(best_visit)
-        visited.append(best_visit)
+        unvisited.remove(best_choice)
+        visited.add(best_choice)
+
     return carcass_weight
