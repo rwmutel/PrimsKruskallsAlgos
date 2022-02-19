@@ -46,24 +46,53 @@ def gnp_random_connected_graph(num_of_nodes: int,
     return G
 
 if __name__ == '__main__':
-    time_taken_prim = 0
-    time_taken_kruskal = 0
-    ITERATIONS = 100
-    for i in tqdm(range(ITERATIONS)):
-        G = gnp_random_connected_graph(20, 1, False)
+    time_nx_prim = 0
+    y_nx_prim = []
+    time_prim = 0
+    y_prim = []
+    time_nx_kruskal = 0
+    y_nx_kruskal = []
+    time_kruskal = 0
+    y_kruskal = []
+    ITERATIONS = 10
+    nodes = [50 * i for i in range(15)]
+    fig, ax = plt.subplots()
 
-        start = time.time()
-        prims_algo(G)
-        end = time.time()
-        time_taken_prim += end - start
+    for n in nodes:
+        for i in tqdm(range(ITERATIONS)):
+            G = gnp_random_connected_graph(n, 1, False)
 
-        start = time.time()
-        kruskalls_tree(G)
-        end = time.time()
-        time_taken_kruskal += end - start
+            start = time.time()
+            nx.minimum_spanning_tree(G, algorithm='prim')
+            end = time.time()
+            time_nx_prim += end - start
 
-    
-    print('Prim:')
-    print(time_taken_prim / ITERATIONS)
-    print('\nKruskal:')
-    print(time_taken_kruskal / ITERATIONS)
+            start = time.time()
+            # prims_algo(G)
+            end = time.time()
+            time_prim += end - start
+
+            start = time.time()
+            nx.minimum_spanning_tree(G, algorithm='kruskal')
+            end = time.time()
+            time_nx_kruskal += end - start
+
+            start = time.time()
+            kruskalls_tree(G)
+            end = time.time()
+            time_kruskal += end - start
+        
+        y_nx_prim.append(time_nx_prim/ITERATIONS)
+        y_prim.append(time_prim/ITERATIONS)
+        y_nx_kruskal.append(time_nx_kruskal/ITERATIONS)
+        y_kruskal.append(time_kruskal/ITERATIONS)
+
+    ax.plot(nodes, y_nx_prim, label='NetworkX Prim')
+    ax.plot(nodes, y_prim, label='Our Prim')
+    ax.plot(nodes, y_nx_kruskal, label='NetworkX Kruskal')
+    ax.plot(nodes, y_kruskal, label='Our Kruskal')
+    ax.legend()
+    plt.title('Comparison of Different Minimum Spanning Tree Algorithms')
+    plt.xlabel('Amount of nodes in a complete graph')
+    plt.ylabel('Time (seconds)')
+    plt.show()
